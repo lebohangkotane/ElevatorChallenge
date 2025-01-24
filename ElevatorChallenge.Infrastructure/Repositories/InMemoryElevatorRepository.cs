@@ -1,12 +1,8 @@
-﻿using ElevatorChallenge.Domain.Entities;
+﻿using ElevatorChallenge.Application.Interfaces;
+using ElevatorChallenge.Domain.Entities;
 using ElevatorChallenge.Domain.Enums;
 using ElevatorChallenge.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using IElevatorRepository = ElevatorChallenge.Application.Interfaces.IElevatorRepository;
 namespace ElevatorChallenge.Infrastructure.Repositories
 {
     public class InMemoryElevatorRepository : IElevatorRepository
