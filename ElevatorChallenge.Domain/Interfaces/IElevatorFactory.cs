@@ -11,5 +11,6 @@ namespace ElevatorChallenge.Domain.Interfaces
     public interface IElevatorFactory
     {
         ElevatorBase CreateElevator(ElevatorType type, int id);
+
     }
 }
