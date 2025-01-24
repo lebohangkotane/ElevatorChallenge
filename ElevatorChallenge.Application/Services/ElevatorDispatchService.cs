@@ -1,28 +1,23 @@
 ﻿using ElevatorChallenge.Application.DTOs;
+using ElevatorChallenge.Application.Interfaces;
 using ElevatorChallenge.Domain.Entities;
 using ElevatorChallenge.Domain.Enums;
-using ElevatorChallenge.Domain.Interfaces;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Serilog;
 
 namespace ElevatorChallenge.Application.Services
 {
     public class ElevatorDispatchService : IElevatorDispatcher
     {
         private readonly IElevatorRepository _repository;
-        private readonly ILogger<ElevatorDispatchService> _logger;
+        private readonly ILogger _logger;
 
-        public ElevatorDispatchService(IElevatorRepository repository, ILogger<ElevatorDispatchService> logger)
+        public ElevatorDispatchService(IElevatorRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
-        public async Task<ElevatorBase> GetOptimalElevator(ElevatorRequest request)
+        public Task<ElevatorBase> GetOptimalElevator(ElevatorRequest request)
         {
             var elevators = _repository.GetAll();
 
@@ -33,8 +28,8 @@ namespace ElevatorChallenge.Application.Services
 
             if (!availableElevators.Any())
             {
-                _logger.LogWarning("No available elevators for request: {Request}", request);
-                return null;
+                _logger.Warning("No available elevators for request: {Request}", request);
+                return Task.FromResult<ElevatorBase>(null);
             }
 
             var optimalElevator = availableElevators
@@ -63,7 +58,7 @@ namespace ElevatorChallenge.Application.Services
             optimalElevator.AddDestination(request.RequestedFloor);
             _repository.Update(optimalElevator);
 
-            return optimalElevator;
+            return Task.FromResult(optimalElevator);
         }
 
         public async Task UpdateElevatorStatus(int elevatorId)

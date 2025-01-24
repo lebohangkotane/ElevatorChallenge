@@ -1,4 +1,6 @@
-﻿namespace ElevatorChallenge.Application.DTOs
+﻿using ElevatorChallenge.Domain.Enums;
+
+namespace ElevatorChallenge.Application.DTOs
 {
     public record ElevatorRequest(
         int RequestedFloor,
